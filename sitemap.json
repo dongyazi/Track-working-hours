@@ -1,0 +1,7 @@
+{
+  "desc": "关于本助手的配置，详情请查看官网 https://developers.weixin.qq.com/miniprogram/dev/framework/sitemap.html",
+  "rules": [{
+  "action": "allow",
+  "page": "*"
+  }]
+}

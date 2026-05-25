@@ -1,0 +1,81 @@
+<view class="container">
+  <!-- 维度切换 (工时 / 收入) -->
+  <view class="dimension-tabs">
+    <view 
+      class="tab-item {{dimension === 'duration' ? 'active' : ''}}" 
+      bindtap="onDimensionChange" 
+      data-dimension="duration"
+    >工时</view>
+    <view 
+      class="tab-item {{dimension === 'income' ? 'active' : ''}}" 
+      bindtap="onDimensionChange" 
+      data-dimension="income"
+    >收入</view>
+  </view>
+
+  <!-- 核心数据卡片 -->
+  <view class="summary-card">
+    <view class="summary-header">
+      <text class="period-text">{{period === 'week' ? '本周' : (period === 'month' ? '本月' : '今年')}}{{dimension === 'duration' ? '工时' : '收入'}}</text>
+    </view>
+    <view class="summary-main">
+      <view class="main-value" wx:if="{{dimension === 'duration'}}">
+        <text class="number">{{summary.totalDuration}}</text>
+        <text class="unit">h</text>
+      </view>
+      <view class="main-value" wx:else>
+        <text class="unit">¥</text>
+        <text class="number">{{summary.totalIncome}}</text>
+      </view>
+      <view class="compare-tag">较上期 {{summary.compareText}}</view>
+    </view>
+  </view>
+
+  <!-- 柱状图 -->
+  <view class="chart-container">
+    <view class="chart-header">数据趋势</view>
+    <view class="bar-chart">
+      <view class="bar-item" wx:for="{{barChartData}}" wx:key="label">
+        <view class="bar-wrap">
+          <view class="bar-fill" style="height: {{item.height}}"></view>
+        </view>
+        <view class="bar-label">{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 项目分布 -->
+  <view class="distribution-container">
+    <view class="section-title">项目分布</view>
+    <view class="project-list">
+      <view class="project-item" wx:for="{{projectDistribution}}" wx:key="name">
+        <view class="project-info">
+          <text class="name">{{item.name}}</text>
+          <text class="percentage">{{item.percentage}}%</text>
+        </view>
+        <view class="progress-bg">
+          <view class="progress-fill" style="width: {{item.percentage}}%; background-color: {{item.color}}"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部时间切换 -->
+  <view class="period-picker">
+    <view 
+      class="period-btn {{period === 'week' ? 'active' : ''}}" 
+      bindtap="onPeriodChange" 
+      data-period="week"
+    >周</view>
+    <view 
+      class="period-btn {{period === 'month' ? 'active' : ''}}" 
+      bindtap="onPeriodChange" 
+      data-period="month"
+    >月</view>
+    <view 
+      class="period-btn {{period === 'year' ? 'active' : ''}}" 
+      bindtap="onPeriodChange" 
+      data-period="year"
+    >年</view>
+  </view>
+</view>

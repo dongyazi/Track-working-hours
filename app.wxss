@@ -1,0 +1,61 @@
+/**app.wxss**/
+page {
+  /* ===== 主色系统 ===== */
+  --color-primary:       #2563EB;   /* 主蓝 - 品牌色、导航选中、按钮 */
+  --color-primary-dark:  #1D4ED8;   /* 深蓝 - 渐变结束、按压态 */
+  --color-primary-light: #DBEAFE;   /* 浅蓝 - 项目标签背景 */
+  
+  --color-success:       #10B981;   /* 成功绿 - 打卡按钮、已结算标签 */
+  --color-success-dark:  #059669;   /* 深绿 - 金额数字 */
+  --color-success-bg:    #D1FAE5;   /* 浅绿 - 已结算标签背景 */
+  
+  --color-warning:       #F59E0B;   /* 警告琥珀 - 待结算 */
+  --color-warning-bg:    #FEF3C7;   /* 浅琥珀 - 待结算标签背景 */
+  
+  --color-danger:        #EF4444;   /* 危险红 - 异常 */
+  --color-danger-bg:     #FEE2E2;   /* 浅红 - 异常标签背景 */
+  
+  /* ===== 中性色系统 ===== */
+  --color-bg:            #F8FAFC;   /* 页面背景 */
+  --color-card:          #FFFFFF;   /* 卡片背景 */
+  --color-text-primary:  #1E293B;   /* 主文字 */
+  --color-text-secondary:#64748B;   /* 辅助文字 */
+  --color-text-tertiary: #94A3B8;   /* 弱文字/占位符 */
+  --color-border:        #E2E8F0;   /* 分割线/边框 */
+  --color-border-light:  #F1F5F9;   /* 轻分割 */
+
+  /* ===== 间距系统 (4px 基准) ===== */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;    /* 页面边距 */
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ===== 圆角 ===== */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* ===== 基础设置 ===== */
+  background-color: var(--color-bg);
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+  color: var(--color-text-primary);
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} 

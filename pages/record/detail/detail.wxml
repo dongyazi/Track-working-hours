@@ -1,0 +1,49 @@
+<view class="container">
+  <view class="detail-card">
+    <view class="detail-item">
+      <text class="label">项目名称</text>
+      <text class="value" style="color: {{record.projectColor}}">{{record.projectName}}</text>
+    </view>
+    
+    <view class="detail-item">
+      <text class="label">开始时间</text>
+      <text class="value">{{record.startTime}}</text>
+    </view>
+    
+    <view class="detail-item">
+      <text class="label">结束时间</text>
+      <text class="value">{{record.endTime}}</text>
+    </view>
+    
+    <view class="detail-item">
+      <text class="label">持续时长</text>
+      <text class="value">{{record.duration}} 小时</text>
+    </view>
+    
+    <view class="detail-item">
+      <text class="label">结算状态</text>
+      <picker bindchange="onStatusChange" value="{{record.status}}" range="{{statusOptions}}" range-key="label">
+        <view class="picker-value status-tag {{record.status}}">
+          {{record.status === 'settled' ? '已结算' : (record.status === 'abnormal' ? '有异常' : '待结算')}}
+          <text class="arrow">›</text>
+        </view>
+      </picker>
+    </view>
+    
+    <view class="detail-item vertical">
+      <text class="label">备注</text>
+      <textarea 
+        class="remark-input" 
+        placeholder="添加备注信息..." 
+        value="{{record.remark}}" 
+        bindinput="onRemarkInput"
+        maxlength="200"
+      />
+    </view>
+  </view>
+
+  <view class="btn-group">
+    <button class="save-btn" bindtap="onSave">保存修改</button>
+    <button class="delete-btn-outline" bindtap="onDelete">删除记录</button>
+  </view>
+</view>

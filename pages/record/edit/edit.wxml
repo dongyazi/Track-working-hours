@@ -1,0 +1,56 @@
+<view class="container">
+  <view class="form-card">
+    <view class="form-item">
+      <text class="label">日期</text>
+      <picker mode="date" value="{{date}}" bindchange="onDateChange">
+        <view class="picker-value">{{date}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="label">开始时间</text>
+      <picker mode="time" value="{{startTime}}" bindchange="onStartTimeChange">
+        <view class="picker-value">{{startTime}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="label">结束时间</text>
+      <picker mode="time" value="{{endTime}}" bindchange="onEndTimeChange">
+        <view class="picker-value">{{endTime}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <text class="label">对应项目</text>
+      <picker bindchange="onProjectChange" value="{{projectIndex}}" range="{{projects}}" range-key="name">
+        <view class="picker-value">
+          <text wx:if="{{projects.length > 0}}">{{projects[projectIndex].name}}</text>
+          <text wx:else class="placeholder">请选择项目</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item vertical">
+      <text class="label">备注 (可选)</text>
+      <textarea 
+        class="remark-input" 
+        placeholder="写点什么，比如：今天加班费双倍" 
+        value="{{remark}}" 
+        bindinput="onRemarkInput"
+        maxlength="200"
+      />
+    </view>
+  </view>
+
+  <view class="btn-group">
+    <button class="save-btn" bindtap="onSave">{{isEdit ? '保存修改' : '确认添加'}}</button>
+    <button wx:if="{{isEdit}}" class="delete-btn-outline" bindtap="onDelete">删除记录</button>
+  </view>
+</view>
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'

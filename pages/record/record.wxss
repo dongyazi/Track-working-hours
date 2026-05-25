@@ -1,0 +1,206 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+/* 筛选栏 */
+.filter-bar {
+  display: flex;
+  background-color: #FFFFFF;
+  padding: var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.filter-item {
+  padding: var(--space-1) var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-full);
+  margin-right: var(--space-2);
+  transition: all 0.2s;
+}
+
+.filter-item.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* 记录列表 */
+.record-list {
+  flex: 1;
+  overflow: hidden;
+}
+
+.date-group {
+  margin-bottom: var(--space-4);
+}
+
+.group-title {
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.record-item-wrapper {
+  position: relative;
+  width: 100%;
+  height: 92px;
+  overflow: hidden;
+  margin-bottom: 2rpx;
+}
+
+.record-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  transition: transform 0.2s ease-out;
+  padding: 0 var(--space-4);
+  box-sizing: border-box;
+}
+
+.project-indicator {
+  width: 4px;
+  height: 48px;
+  border-radius: 2px;
+  margin-right: var(--space-4);
+}
+
+.record-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-1);
+}
+
+.project-name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.duration {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.record-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-range {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* 状态标签 */
+.status-tag {
+  height: 22px;
+  padding: 0 var(--space-3);
+  border-radius: 11px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+}
+
+.status-icon {
+  margin-right: 4px;
+}
+
+.status-tag.settled {
+  background-color: var(--color-success-bg);
+  color: var(--color-success-dark);
+}
+
+.status-tag.pending {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.status-tag.abnormal {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+/* 删除按钮 */
+.delete-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 100%;
+  background-color: var(--color-danger);
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.list-end {
+  padding: var(--space-8) 0;
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* 空状态 */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20vh;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-4);
+  opacity: 0.3;
+}
+
+.empty-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
+/* 悬浮添加按钮 */
+.add-btn-fixed {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border-radius: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+}
+
+.add-icon {
+  font-size: 32px;
+  font-weight: 300;
+  margin-bottom: 4px;
+}

@@ -1,0 +1,115 @@
+.container {
+  padding: var(--space-4);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+.detail-card {
+  background-color: #FFFFFF;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-10);
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item.vertical {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.label {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+}
+
+.value {
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.status-tag {
+  height: 28px;
+  padding: 0 var(--space-4);
+  border-radius: 14px;
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+}
+
+.status-tag.settled {
+  background-color: var(--color-success-bg);
+  color: var(--color-success-dark);
+}
+
+.status-tag.pending {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.status-tag.abnormal {
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.arrow {
+  margin-left: var(--space-2);
+  font-size: var(--font-size-lg);
+  opacity: 0.5;
+}
+
+.remark-input {
+  width: 100%;
+  height: 120px;
+  background-color: var(--color-bg);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  font-size: var(--font-size-sm);
+  box-sizing: border-box;
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.save-btn {
+  width: 100%;
+  height: 52px;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border-radius: var(--radius-lg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-4);
+}
+
+.delete-btn-outline {
+  width: 100%;
+  height: 52px;
+  background-color: transparent;
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-lg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+}

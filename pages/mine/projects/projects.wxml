@@ -1,0 +1,62 @@
+<view class="container">
+  <!-- 项目列表 -->
+  <view class="project-list" wx:if="{{projects.length > 0}}">
+    <view class="project-item" wx:for="{{projects}}" wx:key="id">
+      <view class="project-info">
+        <view class="project-dot" style="background-color: {{item.color}}"></view>
+        <view class="project-text">
+          <text class="name">{{item.name}}</text>
+          <text class="rate">默认时薪: ¥{{item.hourlyRate}}/h</text>
+        </view>
+      </view>
+      <view class="delete-icon" bindtap="onDeleteProject" data-id="{{item.id}}">🗑️</view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <view class="empty-icon">📋</view>
+    <text class="empty-text">还没有任何项目</text>
+  </view>
+
+  <!-- 添加按钮 -->
+  <view class="add-btn-fixed" bindtap="onShowAddModal">
+    <text class="add-icon">+</text>
+  </view>
+
+  <!-- 添加项目弹窗 -->
+  <view class="modal-overlay" wx:if="{{showAddModal}}">
+    <view class="modal-content">
+      <view class="modal-header">添加新项目</view>
+      
+      <view class="input-group">
+        <text class="input-label">项目名称</text>
+        <input class="input" placeholder="例如：星湖花园装修" bindinput="onInputName" value="{{newProject.name}}" />
+      </view>
+
+      <view class="input-group">
+        <text class="input-label">项目时薪 (¥/h)</text>
+        <input class="input" type="digit" placeholder="默认 35" bindinput="onInputRate" value="{{newProject.hourlyRate}}" />
+      </view>
+
+      <view class="input-group">
+        <text class="input-label">主题颜色</text>
+        <view class="color-picker">
+          <view 
+            class="color-dot {{newProject.color === item ? 'active' : ''}}" 
+            wx:for="{{colors}}" 
+            wx:key="*this"
+            style="background-color: {{item}}"
+            bindtap="onSelectColor"
+            data-color="{{item}}"
+          ></view>
+        </view>
+      </view>
+
+      <view class="modal-footer">
+        <button class="btn-cancel" bindtap="onHideAddModal">取消</button>
+        <button class="btn-confirm" bindtap="onSaveProject">确定添加</button>
+      </view>
+    </view>
+  </view>
+</view>

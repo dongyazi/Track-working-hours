@@ -1,0 +1,189 @@
+.container {
+  padding: var(--space-4);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-item {
+  background-color: #FFFFFF;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+  box-shadow: var(--shadow-sm);
+}
+
+.project-info {
+  display: flex;
+  align-items: center;
+}
+
+.project-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: var(--space-4);
+}
+
+.project-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+
+.rate {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.delete-icon {
+  font-size: 18px;
+  padding: var(--space-2);
+}
+
+/* 悬浮添加按钮 */
+.add-btn-fixed {
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border-radius: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+}
+
+.add-icon {
+  font-size: 32px;
+  font-weight: 300;
+  margin-bottom: 4px;
+}
+
+/* 弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(30, 41, 59, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 80%;
+  background-color: #FFFFFF;
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+}
+
+.modal-header {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: var(--space-4);
+}
+
+.input-label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+.input {
+  width: 100%;
+  height: 44px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-base);
+}
+
+.color-picker {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-2) 0;
+}
+
+.color-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+.color-dot.active {
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.modal-footer {
+  display: flex;
+  margin-top: var(--space-8);
+}
+
+.btn-cancel, .btn-confirm {
+  flex: 1;
+  height: 44px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-cancel {
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  margin-right: var(--space-2);
+}
+
+.btn-confirm {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  margin-left: var(--space-2);
+}
+
+/* 空状态 */
+.empty-state {
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-4);
+  opacity: 0.3;
+}
+
+.empty-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}

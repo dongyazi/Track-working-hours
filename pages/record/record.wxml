@@ -1,0 +1,80 @@
+<view class="container">
+  <!-- 顶部筛选栏 -->
+  <view class="filter-bar">
+    <view 
+      class="filter-item {{activeFilter === 'all' ? 'active' : ''}}" 
+      bindtap="onFilterChange" 
+      data-filter="all"
+    >全部</view>
+    <view 
+      class="filter-item {{activeFilter === 'week' ? 'active' : ''}}" 
+      bindtap="onFilterChange" 
+      data-filter="week"
+    >本周</view>
+    <view 
+      class="filter-item {{activeFilter === 'month' ? 'active' : ''}}" 
+      bindtap="onFilterChange" 
+      data-filter="month"
+    >本月</view>
+  </view>
+
+  <!-- 记录列表 -->
+  <scroll-view scroll-y class="record-list" wx:if="{{!isEmpty}}">
+    <view class="date-group" wx:for="{{groupedRecords}}" wx:for-item="group" wx:for-index="gi" wx:key="title">
+      <view class="group-title">{{group.title}}</view>
+      
+      <view 
+        class="record-item-wrapper" 
+        wx:for="{{group.records}}" 
+        wx:key="id"
+        bindtouchstart="touchStart"
+        bindtouchmove="touchMove"
+        data-groupindex="{{gi}}"
+        data-index="{{index}}"
+      >
+        <view 
+          class="record-item" 
+          style="transform: translateX({{item.offsetX}}rpx)"
+          bindtap="onRecordClick"
+          data-id="{{item.id}}"
+        >
+          <view class="project-indicator" style="background-color: {{item.projectColor}}"></view>
+          <view class="record-info">
+            <view class="record-header">
+              <text class="project-name">{{item.projectName}}</text>
+              <text class="duration">{{item.duration}}h</text>
+            </view>
+            <view class="record-footer">
+              <text class="time-range">{{item.timeRange}}</text>
+              <view class="status-tag {{item.status}}">
+                <text class="status-icon">{{item.status === 'settled' ? '✓' : (item.status === 'abnormal' ? '!' : '○')}}</text>
+                <text>{{item.status === 'settled' ? '已结算' : (item.status === 'abnormal' ? '异常' : '待结算')}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        
+        <view class="delete-btn" bindtap="onDeleteRecord" data-id="{{item.id}}">删除</view>
+      </view>
+    </view>
+    
+    <view class="list-end">我是有底线的</view>
+  </scroll-view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <view class="empty-icon">📋</view>
+    <text class="empty-text">点击首页打卡开始记录吧！</text>
+  </view>
+
+  <!-- 悬浮添加按钮 -->
+  <view class="add-btn-fixed" bindtap="onAddRecord">
+    <text class="add-icon">+</text>
+  </view>
+</view>
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
+/home/engine/.bashrc: line 1: syntax error near unexpected token `('
+/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'

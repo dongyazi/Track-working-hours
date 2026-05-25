@@ -1,0 +1,199 @@
+.container {
+  padding: var(--space-4);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+}
+
+/* 顶部标签 */
+.dimension-tabs {
+  display: flex;
+  background-color: var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: 4px;
+  margin-bottom: var(--space-4);
+}
+
+.tab-item {
+  flex: 1;
+  text-align: center;
+  padding: var(--space-2) 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  border-radius: var(--radius-md);
+  transition: all 0.2s;
+}
+
+.tab-item.active {
+  background-color: #FFFFFF;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 核心卡片 */
+.summary-card {
+  background-color: #FFFFFF;
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-6);
+}
+
+.summary-header {
+  margin-bottom: var(--space-2);
+}
+
+.period-text {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.summary-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.main-value {
+  display: flex;
+  align-items: baseline;
+}
+
+.number {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+}
+
+.unit {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.compare-tag {
+  font-size: var(--font-size-xs);
+  color: var(--color-success);
+  font-weight: var(--font-weight-medium);
+  padding-bottom: 6px;
+}
+
+/* 柱状图 */
+.chart-container {
+  background-color: #FFFFFF;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-6);
+}
+
+.chart-header {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-6);
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  height: 140px;
+  justify-content: space-between;
+}
+
+.bar-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.bar-wrap {
+  flex: 1;
+  width: 12px;
+  background-color: var(--color-border-light);
+  border-radius: 6px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.bar-fill {
+  width: 100%;
+  background: linear-gradient(to top, var(--color-primary), #60A5FA);
+  border-radius: 6px;
+  transition: height 0.4s ease-out;
+}
+
+.bar-label {
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+  margin-top: 8px;
+}
+
+/* 项目分布 */
+.distribution-container {
+  background-color: #FFFFFF;
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 80px;
+}
+
+.section-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-4);
+}
+
+.project-item {
+  margin-bottom: var(--space-4);
+}
+
+.project-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-2);
+}
+
+.progress-bg {
+  height: 8px;
+  background-color: var(--color-border-light);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+/* 底部切换 */
+.period-picker {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #FFFFFF;
+  display: flex;
+  padding: 4px;
+  border-radius: 25px;
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+}
+
+.period-btn {
+  padding: var(--space-2) var(--space-6);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  border-radius: 20px;
+}
+
+.period-btn.active {
+  background-color: var(--color-text-primary);
+  color: #FFFFFF;
+}
