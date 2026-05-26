@@ -46,7 +46,7 @@ Page({
     if (record) {
       const [date, startTime] = record.startTime.split(' ')
       const [, endTime] = record.endTime.split(' ')
-      
+
       const projects = this.data.projects
       const projectIndex = projects.findIndex(p => p.id === record.projectId)
 
@@ -82,7 +82,7 @@ Page({
 
   onSave() {
     const { date, startTime, endTime, projectIndex, projects, remark, isEdit, recordId } = this.data
-    
+
     if (projects.length === 0) {
       wx.showToast({ title: '请先创建项目', icon: 'none' })
       return
@@ -91,7 +91,7 @@ Page({
     const project = projects[projectIndex]
     const startStr = `${date} ${startTime}:00`
     const endStr = `${date} ${endTime}:00`
-    
+
     const start = new Date(startStr.replace(/-/g, '/'))
     const end = new Date(endStr.replace(/-/g, '/'))
 
@@ -126,7 +126,8 @@ Page({
       icon: 'success'
     })
 
-    setTimeout(() => {
+    this._navTimer = setTimeout(() => {
+      this._navTimer = null
       wx.navigateBack()
     }, 1000)
   },
@@ -139,15 +140,19 @@ Page({
         if (res.confirm) {
           storageService.deleteRecord(this.data.recordId)
           wx.showToast({ title: '已删除', icon: 'success' })
-          setTimeout(() => wx.navigateBack(), 1000)
+          this._navTimer = setTimeout(() => {
+            this._navTimer = null
+            wx.navigateBack()
+          }, 1000)
         }
       }
     })
+  },
+
+  onUnload() {
+    if (this._navTimer) {
+      clearTimeout(this._navTimer)
+      this._navTimer = null
+    }
   }
 })
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'

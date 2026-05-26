@@ -22,11 +22,13 @@ Page({
   },
 
   onShowAddModal() {
+    const settings = wx.getStorageSync('wt_settings') || {}
+    const defaultRate = typeof settings.defaultHourlyRate === 'number' ? settings.defaultHourlyRate : 35
     this.setData({
       showAddModal: true,
       newProject: {
         name: '',
-        hourlyRate: 35,
+        hourlyRate: defaultRate,
         color: '#3B82F6'
       }
     })
@@ -61,15 +63,36 @@ Page({
 
   onDeleteProject(e) {
     const { id } = e.currentTarget.dataset
+    const records = storageService.getRecords({ projectId: id })
+    const hasRecords = records.length > 0
+
     wx.showModal({
       title: '确认删除',
-      content: '确定要删除这个项目吗？相关的工时记录不会被自动删除。',
+      content: hasRecords
+        ? `该项目下有 ${records.length} 条工时记录，确定要删除项目吗？`
+        : '确定要删除这个项目吗？',
       success: (res) => {
-        if (res.confirm) {
+        if (!res.confirm) return
+
+        if (!hasRecords) {
           storageService.deleteProject(id)
           this.loadProjects()
           wx.showToast({ title: '已删除', icon: 'success' })
+          return
         }
+
+        wx.showModal({
+          title: '关联记录',
+          content: '是否同时删除该项目下的所有工时记录？',
+          confirmText: '一起删除',
+          cancelText: '保留记录',
+          success: (res2) => {
+            const cascade = !!res2.confirm
+            storageService.deleteProject(id, { cascade })
+            this.loadProjects()
+            wx.showToast({ title: '已删除', icon: 'success' })
+          }
+        })
       }
     })
   }

@@ -10,7 +10,7 @@ const KEYS = {
  * 生成唯一ID
  */
 const generateId = () => {
-  return Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
+  return Date.now().toString(36) + Math.random().toString(36).substring(2, 7)
 }
 
 /**
@@ -43,11 +43,21 @@ const projectService = {
     return updatedProject
   },
 
-  deleteProject(projectId) {
+  deleteProject(projectId, { cascade = false } = {}) {
     let projects = this.getProjects()
     projects = projects.filter(p => p.id !== projectId)
     storage.set(KEYS.PROJECTS, projects)
-    // 注意：此处未处理属于该项目的工时记录，可根据需要决定是否连带删除
+
+    if (cascade) {
+      let records = storage.get(KEYS.RECORDS) || []
+      records = records.filter(r => r.projectId !== projectId)
+      storage.set(KEYS.RECORDS, records)
+    }
+
+    const lastProject = storage.get('wt_last_project')
+    if (lastProject && lastProject.id === projectId) {
+      storage.remove('wt_last_project')
+    }
   }
 }
 
@@ -56,25 +66,20 @@ const projectService = {
  */
 const recordService = {
   getRecords(filters = {}) {
-    let records = storage.get(KEYS.RECORDS) || []
-    
-    if (filters.projectId) {
-      records = records.filter(r => r.projectId === filters.projectId)
-    }
-    
-    if (filters.status) {
-      records = records.filter(r => r.status === filters.status)
-    }
+    const { projectId, status, startDate, endDate } = filters
+    const all = storage.get(KEYS.RECORDS) || []
 
-    if (filters.startDate && filters.endDate) {
-      records = records.filter(r => {
-        const date = r.startTime.split(' ')[0]
-        return date >= filters.startDate && date <= filters.endDate
+    return all
+      .filter(r => {
+        if (projectId && r.projectId !== projectId) return false
+        if (status && r.status !== status) return false
+        if (startDate && endDate) {
+          const date = r.startTime.split(' ')[0]
+          if (date < startDate || date > endDate) return false
+        }
+        return true
       })
-    }
-
-    // 按开始时间倒序排列
-    return records.sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
+      .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
   },
 
   addRecord(record) {

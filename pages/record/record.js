@@ -22,7 +22,7 @@ Page({
   loadRecords() {
     const filter = this.data.activeFilter
     let filters = {}
-    
+
     if (filter === 'week') {
       const now = new Date()
       const day = now.getDay() || 7
@@ -38,7 +38,8 @@ Page({
 
     const records = storageService.getRecords(filters)
     const grouped = this.groupRecordsByDate(records)
-    
+
+    this._activeSwipe = null
     this.setData({
       groupedRecords: grouped,
       isEmpty: records.length === 0
@@ -57,7 +58,7 @@ Page({
     records.forEach(record => {
       const date = record.startTime.split(' ')[0]
       let groupTitle = date
-      
+
       if (date === today) {
         groupTitle = '今天'
       } else if (date === yesterday) {
@@ -70,7 +71,7 @@ Page({
           records: []
         }
       }
-      
+
       // 添加滑动偏移状态
       groups[groupTitle].records.push({
         ...record,
@@ -94,27 +95,23 @@ Page({
     const clientX = e.touches[0].clientX
     const { index, groupindex } = e.currentTarget.dataset
     const offsetX = this.data.startX - clientX
-    
-    if (offsetX > 20) { // 向左滑动
+
+    if (offsetX > 20) {
       this.updateRecordOffset(groupindex, index, -80)
-    } else if (offsetX < -20) { // 向右滑动
+    } else if (offsetX < -20) {
       this.updateRecordOffset(groupindex, index, 0)
     }
   },
 
   updateRecordOffset(groupIndex, recordIndex, offset) {
-    const groupedRecords = this.data.groupedRecords
-    // 重置其他记录的偏移
-    groupedRecords.forEach((g, gi) => {
-      g.records.forEach((r, ri) => {
-        if (gi !== groupIndex || ri !== recordIndex) {
-          r.offsetX = 0
-        } else {
-          r.offsetX = offset
-        }
-      })
-    })
-    this.setData({ groupedRecords })
+    const patch = {}
+    const prev = this._activeSwipe
+    if (prev && (prev.gi !== groupIndex || prev.ri !== recordIndex)) {
+      patch[`groupedRecords[${prev.gi}].records[${prev.ri}].offsetX`] = 0
+    }
+    patch[`groupedRecords[${groupIndex}].records[${recordIndex}].offsetX`] = offset
+    this.setData(patch)
+    this._activeSwipe = offset === 0 ? null : { gi: groupIndex, ri: recordIndex }
   },
 
   onDeleteRecord(e) {
@@ -145,15 +142,3 @@ Page({
     })
   }
 })
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'

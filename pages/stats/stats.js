@@ -1,4 +1,4 @@
-const { formatDate } = require('../../utils/util')
+const { formatDate, getRecordDurationHours, calculateRecordIncome } = require('../../utils/util')
 const storageService = require('../../services/storage')
 
 Page({
@@ -42,7 +42,7 @@ Page({
       const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day + 1)
       startDate = formatDate(start)
       endDate = formatDate(now)
-      
+
       labels = ['一', '二', '三', '四', '五', '六', '日']
       for (let i = 0; i < 7; i++) {
         const d = new Date(start)
@@ -53,7 +53,7 @@ Page({
       const start = new Date(now.getFullYear(), now.getMonth(), 1)
       startDate = formatDate(start)
       endDate = formatDate(now)
-      
+
       const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
       for (let i = 1; i <= lastDay; i++) {
         labels.push(i.toString())
@@ -65,22 +65,27 @@ Page({
       labels = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
     }
 
+    // 缓存项目映射（按 id），避免循环内多次查询
+    const projects = storageService.getProjects()
+    const projectsById = {}
+    projects.forEach(p => { projectsById[p.id] = p })
+    const rateOf = r => {
+      const p = projectsById[r.projectId]
+      return p ? (p.hourlyRate || 0) : 0
+    }
+
     const records = storageService.getRecords({ startDate, endDate })
-    
-    // 计算汇总数据
+
+    // 汇总
     let totalDuration = 0
     let totalIncome = 0
     const projectMap = {}
 
     records.forEach(r => {
-      const d = parseFloat(r.duration || 0)
+      const d = getRecordDurationHours(r)
+      const rate = rateOf(r)
       totalDuration += d
-      
-      // 这里暂时取项目的时薪，如果记录里没存的话
-      const projects = storageService.getProjects()
-      const project = projects.find(p => p.id === r.projectId)
-      const rate = project ? project.hourlyRate : 0
-      totalIncome += d * rate
+      totalIncome += calculateRecordIncome(r, rate)
 
       if (!projectMap[r.projectId]) {
         projectMap[r.projectId] = {
@@ -89,18 +94,17 @@ Page({
           value: 0
         }
       }
-      projectMap[r.projectId].value += (dimension === 'duration' ? d : d * rate)
+      projectMap[r.projectId].value += (dimension === 'duration' ? d : calculateRecordIncome(r, rate))
     })
 
-    // 处理柱状图数据
-    let chartValues = []
+    // 柱状图
+    let chartValues
     if (period === 'year') {
       chartValues = new Array(12).fill(0)
       records.forEach(r => {
-        const month = new Date(r.startTime).getMonth()
-        const d = parseFloat(r.duration || 0)
-        const rate = 35 // 默认
-        chartValues[month] += (dimension === 'duration' ? d : d * rate)
+        const month = parseInt(r.startTime.substring(5, 7), 10) - 1
+        const d = getRecordDurationHours(r)
+        chartValues[month] += (dimension === 'duration' ? d : calculateRecordIncome(r, rateOf(r)))
       })
     } else {
       chartValues = new Array(dateRange.length).fill(0)
@@ -108,9 +112,8 @@ Page({
         const date = r.startTime.split(' ')[0]
         const idx = dateRange.indexOf(date)
         if (idx !== -1) {
-          const d = parseFloat(r.duration || 0)
-          const rate = 35 // 默认
-          chartValues[idx] += (dimension === 'duration' ? d : d * rate)
+          const d = getRecordDurationHours(r)
+          chartValues[idx] += (dimension === 'duration' ? d : calculateRecordIncome(r, rateOf(r)))
         }
       })
     }
@@ -122,21 +125,49 @@ Page({
       height: (v / maxValue * 100) + '%'
     }))
 
-    // 处理项目分布
+    // 项目分布
     const totalVal = dimension === 'duration' ? totalDuration : totalIncome
     const projectDistribution = Object.values(projectMap).map(p => ({
       ...p,
       percentage: totalVal > 0 ? (p.value / totalVal * 100).toFixed(0) : 0
     })).sort((a, b) => b.value - a.value)
 
+    // 与上一周期对比
+    const prevRange = getPreviousRange(startDate, endDate)
+    const prevRecords = storageService.getRecords(prevRange)
+    let prevTotal = 0
+    prevRecords.forEach(r => {
+      const d = getRecordDurationHours(r)
+      prevTotal += (dimension === 'duration' ? d : calculateRecordIncome(r, rateOf(r)))
+    })
+    const currentTotal = dimension === 'duration' ? totalDuration : totalIncome
+    let compareText
+    if (prevTotal === 0) {
+      compareText = currentTotal > 0 ? '新增' : '—'
+    } else {
+      const diff = (currentTotal - prevTotal) / prevTotal * 100
+      const sign = diff >= 0 ? '+' : ''
+      compareText = `${sign}${diff.toFixed(0)}%`
+    }
+
     this.setData({
       summary: {
         totalDuration: totalDuration.toFixed(1),
         totalIncome: totalIncome.toFixed(2),
-        compareText: '+12%' // 模拟对比数据
+        compareText
       },
       barChartData,
       projectDistribution
     })
   }
 })
+
+// 给定日期区间，计算上一个等长区间
+function getPreviousRange(startDate, endDate) {
+  const start = new Date(startDate.replace(/-/g, '/'))
+  const end = new Date(endDate.replace(/-/g, '/'))
+  const spanMs = end - start
+  const prevEnd = new Date(start.getTime() - 24 * 60 * 60 * 1000)
+  const prevStart = new Date(prevEnd.getTime() - spanMs)
+  return { startDate: formatDate(prevStart), endDate: formatDate(prevEnd) }
+}

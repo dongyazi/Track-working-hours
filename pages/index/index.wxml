@@ -1,67 +1,141 @@
 <view class="container">
-  <!-- 顶部状态栏占位 -->
   <view class="header">
-    <text class="brand">工时随手记</text>
-    <view class="settings-icon"></view>
+    <view>
+      <text class="brand">工时随手记</text>
+      <text class="header-subtitle">记录每一天的工作节奏</text>
+    </view>
+    <text class="clock">{{currentTime}}</text>
   </view>
 
-  <!-- 今日工时大卡片 -->
-  <view class="work-card">
-    <view class="clock-display">{{currentTime}}</view>
-    <view class="work-info">
-      <text class="label">今日已工作</text>
-      <text class="duration">{{todayWorkTime}}</text>
+  <view class="calendar-card">
+    <view class="calendar-header">
+      <text class="calendar-title">{{calendarTitle}}</text>
+      <view class="calendar-controls">
+        <view class="icon-btn" bindtap="onPrevMonth">‹</view>
+        <view class="today-btn" bindtap="onTodayTap">今天</view>
+        <view class="icon-btn" bindtap="onNextMonth">›</view>
+      </view>
     </view>
-    <view class="income-info">
-      <text class="label">预估收入</text>
-      <text class="income">¥ {{todayIncome}}</text>
+
+    <view class="week-row">
+      <text class="week-label" wx:for="{{weekLabels}}" wx:key="*this">{{item}}</text>
+    </view>
+
+    <view class="calendar-grid">
+      <view class="calendar-week" wx:for="{{calendarWeeks}}" wx:key="index" wx:for-item="week">
+        <view
+          class="{{day.className}}"
+          wx:for="{{week}}"
+          wx:key="date"
+          wx:for-item="day"
+          bindtap="onSelectDate"
+          data-date="{{day.date}}"
+        >
+          <text class="day-number">{{day.day}}</text>
+          <text class="day-duration">{{day.durationText}}</text>
+        </view>
+      </view>
     </view>
   </view>
 
-  <!-- 打卡操作区 -->
+  <view class="hero-card">
+    <view class="hero-topline">
+      <text class="hero-label">{{selectedDateText}}</text>
+      <text class="hero-count">{{selectedRecordsCount}} 条记录</text>
+    </view>
+    <text class="hero-number">{{selectedWorkTime}}</text>
+    <view class="hero-divider"></view>
+    <view class="hero-row">
+      <view class="hero-item">
+        <text class="hero-item-label">今日工时</text>
+        <text class="hero-item-value">{{todayWorkTime}}</text>
+      </view>
+      <view class="hero-item">
+        <text class="hero-item-label">预计收入</text>
+        <text class="hero-item-value">¥ {{todayIncome}}</text>
+      </view>
+    </view>
+  </view>
+
   <view class="action-section">
-    <view class="project-info" wx:if="{{lastProject}}">
-      上次项目：<text class="project-name" style="color: {{lastProject.color}}">{{lastProject.name}}</text>
+    <view class="project-tag" wx:if="{{lastProject}}" bindtap="onChangeProject">
+      <view class="project-tag-dot" style="background-color: {{lastProject.color}}"></view>
+      <text class="project-tag-name">{{lastProject.name}}</text>
+      <text class="project-tag-arrow">切换</text>
     </view>
-    <view class="project-info" wx:else>
-      请先创建并选择一个项目
+    <view class="project-tag empty" wx:else bindtap="onChangeProject">
+      <text>请先选择项目</text>
     </view>
 
-    <button class="clock-btn" bindtap="onClockOut" disabled="{{!lastProject}}">
-      <text class="btn-icon">📍</text>
-      <text>下班打卡</text>
-    </button>
+    <view class="clock-status">
+      <view class="status-item">
+        <text class="status-label">上班时间</text>
+        <text class="status-value">{{clockInDisplay}}</text>
+      </view>
+      <view class="status-item">
+        <text class="status-label">已工作</text>
+        <text class="status-value">{{elapsedTime}}</text>
+      </view>
+    </view>
+
+    <view class="missed-card" wx:if="{{hasMissedClockOut}}">
+      <view class="missed-header">
+        <text class="missed-title">跨天/漏打处理</text>
+        <text class="missed-start">{{missedClockStartText}}</text>
+      </view>
+      <view class="missed-fields">
+        <picker mode="date" value="{{missedClockOutDate}}" start="{{missedClockStartDate}}" end="{{maxClockOutDate}}" bindchange="onMissedClockOutDateChange">
+          <view class="missed-field">
+            <text class="missed-label">实际下班日期</text>
+            <text class="missed-value">{{missedClockOutDate}}</text>
+          </view>
+        </picker>
+        <picker mode="time" value="{{missedClockOutTime}}" bindchange="onMissedClockOutTimeChange">
+          <view class="missed-field">
+            <text class="missed-label">实际下班时间</text>
+            <text class="missed-value">{{missedClockOutTime}}</text>
+          </view>
+        </picker>
+      </view>
+      <button class="missed-btn" bindtap="onConfirmMissedClockOut">按选择时间下班</button>
+    </view>
+
+    <view class="clock-actions">
+      <button
+        class="clock-btn clock-in-btn"
+        bindtap="onClockIn"
+        disabled="{{isClockedIn || !lastProject}}"
+      >
+        上班打卡
+      </button>
+      <button
+        class="clock-btn clock-out-btn"
+        bindtap="onClockOut"
+        disabled="{{!isClockedIn}}"
+      >
+        下班打卡
+      </button>
+    </view>
 
     <view class="sub-actions">
-      <view class="sub-btn" bindtap="onChangeProject">
-        <text class="sub-btn-icon">🔄</text>
-        <text>换项目</text>
-      </view>
-      <view class="sub-btn" bindtap="onAddRecord">
-        <text class="sub-btn-icon">📝</text>
-        <text>补记录</text>
-      </view>
+      <view class="sub-btn" bindtap="onChangeProject">换项目</view>
+      <view class="sub-btn" bindtap="onAddRecord">补记录</view>
     </view>
   </view>
 
-  <!-- 今日摘要 -->
-  <view class="today-summary">
-    <text>⚡今日记录：{{todayRecordsCount}}条</text>
-  </view>
-
-  <!-- 项目选择器弹窗 -->
   <view class="modal-overlay" wx:if="{{showProjectSelector}}" bindtap="hideProjectSelector">
     <view class="project-selector" catchtap="true">
+      <view class="selector-handle"></view>
       <view class="selector-header">
-        <text>选择项目</text>
-        <view class="close-btn" bindtap="hideProjectSelector">✕</view>
+        <text class="selector-title">选择项目</text>
+        <view class="close-btn" bindtap="hideProjectSelector">×</view>
       </view>
       <scroll-view scroll-y class="project-list">
-        <view 
-          class="project-item" 
-          wx:for="{{projects}}" 
-          wx:key="id" 
-          bindtap="onSelectProject" 
+        <view
+          class="project-item"
+          wx:for="{{projects}}"
+          wx:key="id"
+          bindtap="onSelectProject"
           data-project="{{item}}"
         >
           <view class="project-dot" style="background-color: {{item.color}}"></view>
@@ -69,19 +143,18 @@
           <text class="project-rate">¥{{item.hourlyRate}}/h</text>
         </view>
       </scroll-view>
-      <view class="selector-footer" bindtap="onChangeProject">
-        <text>管理项目 ›</text>
+      <view class="selector-footer" bindtap="onManageProjects">
+        <text>管理项目</text>
       </view>
     </view>
   </view>
 
-  <!-- 打卡成功提示 -->
   <view class="success-overlay" wx:if="{{showSuccessOverlay}}">
     <view class="success-content">
       <view class="success-icon-wrap">
         <text class="success-icon-check">✓</text>
       </view>
-      <text class="success-title">打卡成功！</text>
+      <text class="success-title">下班打卡成功</text>
       <view class="success-detail" wx:if="{{lastRecord}}">
         <text class="success-project">{{lastRecord.projectName}}</text>
         <text class="success-time">{{lastRecord.startTime}} - {{lastRecord.endTime}}</text>

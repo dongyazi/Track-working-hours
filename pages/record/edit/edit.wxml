@@ -33,10 +33,10 @@
 
     <view class="form-item vertical">
       <text class="label">备注 (可选)</text>
-      <textarea 
-        class="remark-input" 
-        placeholder="写点什么，比如：今天加班费双倍" 
-        value="{{remark}}" 
+      <textarea
+        class="remark-input"
+        placeholder="写点什么，比如：今天加班费双倍"
+        value="{{remark}}"
         bindinput="onRemarkInput"
         maxlength="200"
       />
@@ -48,9 +48,3 @@
     <button wx:if="{{isEdit}}" class="delete-btn-outline" bindtap="onDelete">删除记录</button>
   </view>
 </view>
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'
-/home/engine/.bashrc: line 1: syntax error near unexpected token `('
-/home/engine/.bashrc: line 1: `. /etc/profile.d/workload-containment.shn# ~/.bashrc: executed by bash(1) for non-login shells.'

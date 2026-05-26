@@ -6,7 +6,7 @@ const formatTime = date => {
   const minute = date.getMinutes()
   const second = date.getSeconds()
 
-  return `${[year, month, day].map(formatNumber).join('/')} ${[hour, minute, second].map(formatNumber).join(':')}`
+  return `${[year, month, day].map(formatNumber).join('-')} ${[hour, minute, second].map(formatNumber).join(':')}`
 }
 
 const formatNumber = n => {
@@ -22,26 +22,67 @@ const formatDate = date => {
   return `${year}-${formatNumber(month)}-${formatNumber(day)}`
 }
 
+const parseDateTime = dateTimeText => {
+  if (!dateTimeText) return null
+  const date = new Date(dateTimeText.replace(/-/g, '/'))
+  return Number.isNaN(date.getTime()) ? null : date
+}
+
+const getRecordDurationHours = record => {
+  const start = parseDateTime(record && record.startTime)
+  const end = parseDateTime(record && record.endTime)
+
+  if (start && end && end > start) {
+    return (end - start) / (1000 * 60 * 60)
+  }
+
+  return parseFloat((record && record.duration) || 0) || 0
+}
+
+const calculateRecordIncome = (record, hourlyRate) => {
+  return getRecordDurationHours(record) * (Number(hourlyRate) || 0)
+}
+
 /**
  * 离线存储工具
  */
 const storage = {
   get(key) {
-    return wx.getStorageSync(key)
+    try {
+      return wx.getStorageSync(key)
+    } catch (e) {
+      console.warn('[storage.get]', key, e)
+      return undefined
+    }
   },
   set(key, value) {
-    wx.setStorageSync(key, value)
+    try {
+      wx.setStorageSync(key, value)
+    } catch (e) {
+      console.warn('[storage.set]', key, e)
+    }
   },
   remove(key) {
-    wx.removeStorageSync(key)
+    try {
+      wx.removeStorageSync(key)
+    } catch (e) {
+      console.warn('[storage.remove]', key, e)
+    }
   },
   clear() {
-    wx.clearStorageSync()
+    try {
+      wx.clearStorageSync()
+    } catch (e) {
+      console.warn('[storage.clear]', e)
+    }
   }
 }
 
 module.exports = {
   formatTime,
   formatDate,
+  parseDateTime,
+  getRecordDurationHours,
+  calculateRecordIncome,
   storage
 }

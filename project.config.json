@@ -1,7 +1,8 @@
 {
   "description": "项目配置文件",
   "packOptions": {
-    "ignore": []
+    "ignore": [],
+    "include": []
   },
   "setting": {
     "urlCheck": false,
@@ -27,7 +28,8 @@
     "useApiHostProcess": true,
     "babelSetting": {
       "ignore": [],
-      "outputPath": ""
+      "outputPath": "",
+      "disablePlugins": []
     },
     "useIsolateContext": false,
     "userConfirmedBundleSwitch": false,
@@ -38,7 +40,12 @@
     "minifyWXML": true,
     "showES6CompileOption": false,
     "useCompilerPlugins": false,
-    "useStaticResource": true
+    "useStaticResource": true,
+    "compileWorklet": false,
+    "localPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true
   },
   "compileType": "miniprogram",
   "libVersion": "2.19.4",
@@ -48,5 +55,6 @@
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  }
+  },
+  "simulatorPluginLibVersion": {}
 }

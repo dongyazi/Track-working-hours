@@ -1,55 +1,61 @@
 .container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   padding: 0;
+  background-color: var(--color-bg);
 }
 
-/* 筛选栏 */
+/* ===== 筛选栏 ===== */
 .filter-bar {
   display: flex;
-  background-color: #FFFFFF;
-  padding: var(--space-2) var(--space-4);
-  border-bottom: 1px solid var(--color-border-light);
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-bg);
 }
 
 .filter-item {
-  padding: var(--space-1) var(--space-4);
+  padding: var(--space-2) var(--space-5);
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   border-radius: var(--radius-full);
-  margin-right: var(--space-2);
-  transition: all 0.2s;
+  background-color: var(--color-card);
+  font-weight: var(--font-weight-medium);
+  transition: all 0.15s;
 }
 
 .filter-item.active {
-  background-color: var(--color-primary);
+  background-color: var(--color-text-primary);
   color: #FFFFFF;
 }
 
-/* 记录列表 */
+/* ===== 记录列表 ===== */
 .record-list {
   flex: 1;
   overflow: hidden;
+  padding: 0 var(--space-4);
 }
 
 .date-group {
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 
 .group-title {
-  padding: var(--space-4) var(--space-4) var(--space-2);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-  font-weight: var(--font-weight-medium);
+  padding: var(--space-3) var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 1rpx;
+  text-transform: uppercase;
 }
 
 .record-item-wrapper {
   position: relative;
   width: 100%;
-  height: 92px;
+  height: 168rpx;
   overflow: hidden;
-  margin-bottom: 2rpx;
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius-lg);
 }
 
 .record-item {
@@ -58,19 +64,21 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #FFFFFF;
+  background-color: var(--color-card);
   display: flex;
   align-items: center;
   z-index: 2;
   transition: transform 0.2s ease-out;
-  padding: 0 var(--space-4);
+  padding: var(--space-4) var(--space-5);
   box-sizing: border-box;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
 }
 
 .project-indicator {
-  width: 4px;
-  height: 48px;
-  border-radius: 2px;
+  width: 6rpx;
+  height: 80rpx;
+  border-radius: 3rpx;
   margin-right: var(--space-4);
 }
 
@@ -78,13 +86,14 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .record-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-1);
+  margin-bottom: var(--space-2);
 }
 
 .project-name {
@@ -97,6 +106,7 @@
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   color: var(--color-text-primary);
+  font-family: var(--font-mono);
 }
 
 .record-footer {
@@ -108,20 +118,22 @@
 .time-range {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+  font-family: var(--font-mono);
 }
 
-/* 状态标签 */
+/* ===== 状态标签 ===== */
 .status-tag {
-  height: 22px;
+  height: 40rpx;
   padding: 0 var(--space-3);
-  border-radius: 11px;
-  font-size: 11px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
   display: flex;
   align-items: center;
 }
 
 .status-icon {
-  margin-right: 4px;
+  margin-right: 4rpx;
 }
 
 .status-tag.settled {
@@ -139,12 +151,12 @@
   color: var(--color-danger);
 }
 
-/* 删除按钮 */
+/* ===== 删除按钮 ===== */
 .delete-btn {
   position: absolute;
   top: 0;
   right: 0;
-  width: 80px;
+  width: 160rpx;
   height: 100%;
   background-color: var(--color-danger);
   color: #FFFFFF;
@@ -152,16 +164,20 @@
   justify-content: center;
   align-items: center;
   z-index: 1;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  border-top-right-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
 }
 
 .list-end {
-  padding: var(--space-8) 0;
+  padding: var(--space-6) 0 var(--space-12);
   text-align: center;
   font-size: var(--font-size-xs);
   color: var(--color-text-tertiary);
 }
 
-/* 空状态 */
+/* ===== 空状态 ===== */
 .empty-state {
   flex: 1;
   display: flex;
@@ -172,9 +188,9 @@
 }
 
 .empty-icon {
-  font-size: 64px;
+  font-size: 120rpx;
   margin-bottom: var(--space-4);
-  opacity: 0.3;
+  opacity: 0.25;
 }
 
 .empty-text {
@@ -182,25 +198,31 @@
   color: var(--color-text-tertiary);
 }
 
-/* 悬浮添加按钮 */
+/* ===== 悬浮添加按钮 ===== */
 .add-btn-fixed {
   position: fixed;
-  bottom: 30px;
-  right: 20px;
-  width: 56px;
-  height: 56px;
-  background-color: var(--color-primary);
+  bottom: calc(48rpx + env(safe-area-inset-bottom));
+  right: 40rpx;
+  width: 112rpx;
+  height: 112rpx;
+  background-color: var(--color-text-primary);
   color: #FFFFFF;
-  border-radius: 28px;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-xl);
   z-index: 100;
+  transition: transform 0.15s;
+}
+
+.add-btn-fixed:active {
+  transform: scale(0.92);
 }
 
 .add-icon {
-  font-size: 32px;
+  font-size: 60rpx;
   font-weight: 300;
-  margin-bottom: 4px;
+  line-height: 1;
+  margin-top: -4rpx;
 }

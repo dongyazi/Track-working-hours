@@ -47,7 +47,7 @@
   <!-- 项目分布 -->
   <view class="distribution-container">
     <view class="section-title">项目分布</view>
-    <view class="project-list">
+    <view class="project-list" wx:if="{{projectDistribution.length > 0}}">
       <view class="project-item" wx:for="{{projectDistribution}}" wx:key="name">
         <view class="project-info">
           <text class="name">{{item.name}}</text>
@@ -57,6 +57,9 @@
           <view class="progress-fill" style="width: {{item.percentage}}%; background-color: {{item.color}}"></view>
         </view>
       </view>
+    </view>
+    <view class="distribution-empty" wx:else>
+      <text>暂无数据</text>
     </view>
   </view>
 

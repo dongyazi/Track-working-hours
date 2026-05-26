@@ -27,7 +27,10 @@ Page({
         title: '未找到该记录',
         icon: 'none'
       })
-      setTimeout(() => wx.navigateBack(), 1500)
+      this._navTimer = setTimeout(() => {
+        this._navTimer = null
+        wx.navigateBack()
+      }, 1500)
     }
   },
 
@@ -51,7 +54,10 @@ Page({
       title: '已保存',
       icon: 'success'
     })
-    setTimeout(() => wx.navigateBack(), 1000)
+    this._navTimer = setTimeout(() => {
+      this._navTimer = null
+      wx.navigateBack()
+    }, 1000)
   },
 
   onDelete() {
@@ -62,9 +68,19 @@ Page({
         if (res.confirm) {
           storageService.deleteRecord(this.data.record.id)
           wx.showToast({ title: '已删除', icon: 'success' })
-          setTimeout(() => wx.navigateBack(), 1000)
+          this._navTimer = setTimeout(() => {
+            this._navTimer = null
+            wx.navigateBack()
+          }, 1000)
         }
       }
     })
+  },
+
+  onUnload() {
+    if (this._navTimer) {
+      clearTimeout(this._navTimer)
+      this._navTimer = null
+    }
   }
 })
